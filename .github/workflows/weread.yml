@@ -1,0 +1,32 @@
+name: Weread
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Weread
+        id: weread
+        run: |
+          python weread.py --weread_cookie ${{ secrets.WEREAD_COOKIE }} --weread_user_vid ${{ secrets.WEREAD_USER_VID }} --branch "main" --repo_name "${{ github.repository }}" --github_token ${{ secrets.GITHUB_TOKEN }} --repository_path "${{ github.workspace }}" --weread_api "https://i.weread.qq.com" --output_path "README.md" --show_title "true" --show_time "true" --show_progress "true" --show_percent "true" --show_book_num "true" --show_notebook "true" --show_review "true" --show_recent_read "true" --show_annual_goal "true" --show_annual_progress "true" --show_annual_book_num "true" --show_annual_read_day "true" --show_annual_read_hour "true" --show_annual_read_word "true" --show_annual_read_note "true" --show_annual_read_review "true" --show_annual_read_thought "true" --show_annual_read_book "true" --show_annual_read_book_list "true" --show_annual_read_book_list_num "true" --show_annual_read_book_list_title "true" --show_annual_read_book_list_author "true" --show_annual_read_book_list_cover "true" --show_annual_read_book_list_rating "true" --show_annual_read_book_list_progress "true" --show_annual_read_book_list_note "true" --show_annual_read_book_list_review "true" --show_annual_read_book_list_thought "true" --show_annual_read_book_list_time "true" --show_annual_read_book_list_word "true" --show_annual_read_book_list_date "true" --show_annual_read_book_list_isbn "true" --show_annual_read_book_list_publisher "true" --show_annual_read_book_list_category "true" --show_annual_read_book_list_tags "true" --show_annual_read_book_list_intro "true" --show_annual_read_book_list_comment "true" --show_annual_read_book_list_url "true" --show_annual_read_book_list_share "true" --show_annual_read_book_list_download "true" --show_annual_read_book_list_buy "true" --show_annual_read_book_list_read "true" --show_annual_read_book_list_reading "true" --show_annual_read_book_list_wish "true" --show_annual_read_book_list_collect "true" --show_annual_read_book_list_share_url "true" --show_annual_read_book_list_share_img "true" --show_annual_read_book_list_share_title "true" --show_annual_read_book_list_share_desc "true" --show_annual_read_book_list_share_source "true" --show_annual_read_book_list_share_author "true" --show_annual_read_book_list_share_cover "true" --show_annual_read_book_list_share_rating "true" --show_annual_read_book_list_share_progress "true" --show_annual_read_book_list_share_note "true" --show_annual_read_book_list_share_review "true" --show_annual_read_book_list_share_thought "true" --show_annual_read_book_list_share_time "true" --show_annual_read_book_list_share_word "true" --show_annual_read_book_list_share_date "true" --show_annual_read_book_list_share_isbn "true" --show_annual_read_book_list_share_publisher "true" --show_annual_read_book_list_share_category "true" --show_annual_read_book_list_share_tags "true" --show_annual_read_book_list_share_intro "true" --show_annual_read_book_list_share_comment "true" --show_annual_read_book_list_share_url "true" --show_annual_read_book_list_share_share "true" --show_annual_read_book_list_share_download "true" --show_annual_read_book_list_share_buy "true" --show_annual_read_book_list_share_read "true" --show_annual_read_book_list_share_reading "true" --show_annual_read_book_list_share_wish "true" --show_annual_read_book_list_share_collect "true"
+      - name: Push to repo
+        run: |
+          git config --global user.name "Weread"
+          git config --global user.email "weread@example.com"
+          git add .
+          git commit -m "Update weread"
+          git push
